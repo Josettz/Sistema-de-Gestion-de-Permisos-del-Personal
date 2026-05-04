@@ -201,4 +201,15 @@ class TipoPermisoController(ICrud, CalculosMixin):
         print(f"  Tipo         : {etiqueta}")
         print(Pantalla.linea())
 
+        confirmacion = self.pedir_si_no(Color.texto("  ¿Confirmar cambios? (S/N): ", Color.AMARILLO))
+        if confirmacion == "S":
+            tp.descripcion = nueva_desc
+            tp.remunerado  = nuevo_rem
+            self._guardar()
+            print(Color.texto("  ✔  Tipo de permiso actualizado correctamente.", Color.VERDE))
+        else:
+            print(Color.texto("  ✖  Actualización cancelada.", Color.ROJO))
+
+        Pantalla.pausar()
+
 
