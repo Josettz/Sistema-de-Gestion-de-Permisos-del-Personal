@@ -5,5 +5,12 @@
         "cedula": "0927268516",
         "sueldo": 400.0,
         "valor_hora": 1.67
+    },
+    {
+        "id": 2,
+        "nombre": "elian Natsuki",
+        "cedula": "0944202217",
+        "sueldo": 7.0,
+        "valor_hora": 0.03
     }
 ]

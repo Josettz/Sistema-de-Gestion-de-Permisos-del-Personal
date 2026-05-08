@@ -111,12 +111,10 @@ class MenuPrincipal:
 
     def _ejecutar_submenu(self, titulo: str, opciones: dict):
         while True:
-            Pantalla.encabezado(titulo)
-            for k, (label, _) in opciones.items():
-                print(Color.texto(f"  {k}. ", Color.AMARILLO) + label)
-            print(Color.texto("  0. ", Color.ROJO) + "Volver")
-            print(Pantalla.linea())
-            opc = input(Color.texto("  Seleccione: ", Color.CYAN)).strip()
+            lista = [(k, label) for k, (label, _) in opciones.items()]
+            lista.append(("0", "Volver"))
+            opc = self._imprimir_menu(titulo, lista)
+
             if opc == "0":
                 break
             elif opc in opciones:
@@ -127,41 +125,36 @@ class MenuPrincipal:
 
 
     def ejecutar(self):
+        opciones = [
+            ("1", "Registrar"),
+            ("2", "Consultar"),
+            ("3", "Buscar"),
+            ("4", "Actualizar"),
+            ("5", "Eliminar"),
+            ("6", "Estadísticas de Permisos"),
+            ("7", "Resumen General"),
+            ("0", "Salir"),
+        ]
+        acciones = {
+            "1": self._menu_registrar,
+            "2": self._menu_consultar,
+            "3": self._menu_buscar,
+            "4": self._menu_actualizar,
+            "5": self._menu_eliminar,
+            "6": self._per.estadisticas,
+            "7": self._stats.resumen_general,
+        }
+
         while True:
-            Pantalla.encabezado("SISTEMA DE GESTIÓN DE PERMISOS DEL PERSONAL")
-
             Pantalla.gotoxy(2, 6)
-            print(Color.texto("  1. ", Color.AMARILLO) + "Registrar")
-            Pantalla.gotoxy(2, 7)
-            print(Color.texto("  2. ", Color.AMARILLO) + "Consultar")
-            Pantalla.gotoxy(2, 8)
-            print(Color.texto("  3. ", Color.AMARILLO) + "Buscar")
-            Pantalla.gotoxy(2, 9)
-            print(Color.texto("  4. ", Color.AMARILLO) + "Actualizar")
-            Pantalla.gotoxy(2, 10)
-            print(Color.texto("  5. ", Color.AMARILLO) + "Eliminar")
-            Pantalla.gotoxy(2, 11)
-            print(Color.texto("  6. ", Color.AMARILLO) + "Estadísticas de Permisos")
-            Pantalla.gotoxy(2, 12)
-            print(Color.texto("  7. ", Color.AMARILLO) + "Resumen General")
-            Pantalla.gotoxy(2, 13)
-            print(Color.texto("  0. ", Color.ROJO)     + "Salir")
-            Pantalla.gotoxy(2, 14)
-            print(Pantalla.linea())
-            Pantalla.gotoxy(2, 15)
-            opc = input(Color.texto("  Seleccione una opción: ", Color.CYAN)).strip()
+            opc = self._imprimir_menu("SISTEMA DE GESTIÓN DE PERMISOS DEL PERSONAL", opciones)
 
-            if   opc == "1": self._menu_registrar()
-            elif opc == "2": self._menu_consultar()
-            elif opc == "3": self._menu_buscar()
-            elif opc == "4": self._menu_actualizar()
-            elif opc == "5": self._menu_eliminar()
-            elif opc == "6": self._per.estadisticas()
-            elif opc == "7": self._stats.resumen_general()
-            elif opc == "0":
+            if   opc == "0":
                 Pantalla.limpiar()
                 print(Color.texto("\n  Hasta luego. ¡Que tenga un buen día!\n", Color.VERDE))
                 break
+            elif opc in acciones:
+                acciones[opc]()
             else:
                 print(Color.texto("  ⚠  Opción no válida.", Color.ROJO))
                 Pantalla.pausar()
