@@ -211,3 +211,5 @@ class TipoPermisoController(ICrud, CalculosMixin):
             print(Color.texto("  ✖  Actualización cancelada.", Color.ROJO))
 
         Pantalla.pausar()
+
+
